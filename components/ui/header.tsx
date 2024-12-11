@@ -29,7 +29,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Site branding */}
           <div className="shrink-0 mr-2 mt-2">
-            <Link href="/projects" className="block text-3xl font-bold text-gray-900">
+            <Link href="/projects" className="block text-3xl font-bold text-gray-200 hover:text-purple-300">
               ZePortfolioBuilder
             </Link>
           </div>
@@ -41,7 +41,7 @@ export default function Header() {
               <li>
                 <Link
                   href="/projects"
-                  className="font-medium text-teal-950 hover:underline hover:text-teal-700 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="text-lg font-medium text-gray-200 hover:underline hover:text-purple-300  px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Projects
                 </Link>
@@ -49,7 +49,7 @@ export default function Header() {
               <li>
                 <Link
                   href="/profile"
-                  className="font-medium text-teal-950 hover:underline hover:text-teal-700 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="text-lg font-medium text-gray-200 hover:underline hover:text-purple-300 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Profile
                 </Link>

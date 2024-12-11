@@ -3,13 +3,9 @@
 import { useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
 import { db, auth } from '@/providers/firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { useParams, useRouter } from 'next/navigation';
-import GrapesJsStudio, {
-  StudioCommands,
-  ToastVariant,
-} from '@grapesjs/studio-sdk/react';
-import '@grapesjs/studio-sdk/style';
+import GrapesJsProject from '@/components/GrapeJsProject';
 
 const ProjectPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -17,7 +13,8 @@ const ProjectPage = () => {
   const [projectData, setProjectData] = useState<any>(null);
   const [isEditingName, setIsEditingName] = useState(false);
   const [projectName, setProjectName] = useState('');
-  const { id: projectId } = useParams();
+  const { id } = useParams();
+  const projectId = Array.isArray(id) ? id[0] : id;
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +34,17 @@ const ProjectPage = () => {
         setProjectData(projectDoc.data());
         setProjectName(projectDoc.data().name);
       } else {
-        setProjectData(null);
+        const initData = {
+          userId: user.uid,
+          name: 'New Project',
+          data: {
+            pages: [],
+            components: [],
+          },
+        };
+        await setDoc(projectRef, initData);
+        setProjectData(initData);
+        setProjectName(initData.name);
       }
     };
     fetchProject();
@@ -49,22 +56,6 @@ const ProjectPage = () => {
     }
   }, [user, isLoading, router]);
 
-  const onReady = (editor: any) => {
-    if (projectData) {
-      editor.loadProjectData(projectData.data);
-    }
-  };
-
-  const getProjetData = async () => {
-    if (editor && projectData) {
-      const projectRef = doc(db, 'projects', String(projectId));
-      const updatedData = editor.getProjectData();
-      await updateDoc(projectRef, { data: updatedData });
-      console.log({ updatedData });
-      showToast('log-project-data');
-    }
-  };
-
   const handleUpdateProjectName = async () => {
     if (!user) return;
     const projectRef = doc(db, 'projects', String(projectId));
@@ -72,65 +63,41 @@ const ProjectPage = () => {
     setIsEditingName(false);
   };
 
-  const showToast = (id: string) =>
-    editor?.runCommand(StudioCommands.toastAdd, {
-      id,
-      header: 'Toast header',
-      content: 'Data logged in console',
-      variant: ToastVariant.Info,
-    });
-  let editor: any;
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (!user) {
-    return <div>You must be logged in to view this project.</div>;
+    return <div className="flex-1 justify-start items-center h-screen">
+      <p className="font-bold text-2xl">You must be logged in to view this project.</p></div>;
   }
 
   return (
-    <main className="flex h-screen flex-col justify-between p-5 gap-2">
+    <main className="flex h-screen flex-col justify-between p-5 gap-2 bg-black">
       <div className="p-1 flex gap-5 mt-16">
-        <div className="flex items-center ">
+        <div className="flex items-center">
           {isEditingName ? (
             <input
               type="text"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               onBlur={handleUpdateProjectName}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow bg-black appearance-none border rounded w-full py-2 px-3 text-xl text-gray-100 font-bold leading-tight focus:outline-none focus:shadow-outline"
             />
           ) : (
-            <h2 onClick={() => setIsEditingName(true)}>{projectName}</h2>
+            <h2 onClick={() => setIsEditingName(true)} className="font-bold text-white text-xl shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline">{projectName}</h2>
           )}
           {isEditingName && (
             <button
               onClick={handleUpdateProjectName}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+              className="bg-purple-300 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
             >
               Save
             </button>
           )}
         </div>
-        <button className="border rounded px-2" onClick={getProjetData}>
-          Save Project
-        </button>
       </div>
-      <div className="flex-1 w-full h-full overflow-hidden">
-        {projectData && (
-          <GrapesJsStudio
-            onReady={(e: any) => {
-              onReady(e);
-              editor = e;
-            }}
-            options={{
-              licenseKey: '02209ecd94b49d0b93f9689a98d177f8d3ad1d1b7294a10b42229da24f9b923',
-              project: projectData.data,
-            }}
-          />
-        )}
-      </div>
+      <GrapesJsProject projectData={projectData} projectId={projectId} />
     </main>
   );
 };

@@ -7,7 +7,6 @@ import { User } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
-import Link from 'next/link';
 
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -70,61 +69,57 @@ const ProfilePage = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen text-white">Loading...</div>;
   }
 
   if (!user) {
-    return <div>You must be logged in to view this profile.</div>;
+    return <div className="flex justify-center items-center h-screen text-white">You must be logged in to view this profile.</div>;
   }
 
   return (
-    <div className="p-5">
-      <h1>Profile Management</h1>
-      {userData && (
-        <form onSubmit={handleUpdateProfile}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 text-sm font-bold mb-2"
+    <div className="flex flex-col items-center justify-center h-screen p-5 bg-black text-white">
+      <h1 className="text-4xl font-bold mb-6">Profile Management</h1>
+      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+        {userData && (
+          <form onSubmit={handleUpdateProfile}>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-purple-300 text-sm font-bold mb-2">
+                Name:
+              </label>
+              <input
+                type="text"
+                id="name"
+                defaultValue={userData.name}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-purple-300 text-sm font-bold mb-2">
+                Email:
+              </label>
+              <input
+                type="email"
+                id="email"
+                defaultValue={userData.email}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
-              Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              defaultValue={userData.name}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              defaultValue={userData.email}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Update Profile
-          </button>
-        </form>
-      )}
-      {!userData && <p>No user data found.</p>}
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
-      >
-        Logout
-      </button>
+              Update Profile
+            </button>
+          </form>
+        )}
+        {!userData && <p>No user data found.</p>}
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4 w-full"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 };
