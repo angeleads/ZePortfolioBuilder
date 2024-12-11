@@ -1,24 +1,30 @@
-// app/projects/page.tsx (with editing)
+// app/projects/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react';
-import { db } from '@/providers/firebase';
-import { useAuth } from '@/providers/auth';
+import { User } from 'firebase/auth';
+import { db, auth } from '@/providers/firebase';
 import { collection, query, where, getDocs, doc, deleteDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const ProjectsPage = () => {
-  const { user } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<{ id: string; name: string; data: any; editing: boolean }[]>([]);
   const router = useRouter();
-
-  console.log('ProjectsPage -> projects', projects);
+  const [newProjectId, setNewProjectId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      console.log('No user found');
-      return;
-    }
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+      setIsLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (!user || isLoading) return;
     const fetchProjects = async () => {
       const projectsRef = collection(db, 'projects');
       const q = query(projectsRef, where('userId', '==', user.uid));
@@ -27,19 +33,35 @@ const ProjectsPage = () => {
       setProjects(projectsList);
     };
     fetchProjects();
-  }, [user, db]);
+  }, [user, isLoading, db]);
+
+  useEffect(() => {
+    if (!user && !isLoading) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
+  useEffect(() => {
+    if (newProjectId) {
+      router.push(`/projects/${newProjectId}`);
+    }
+  }, [newProjectId, router]);
 
   const handleCreateNewProject = async () => {
-    if (!user) return;
+    if (!user) {
+      console.log('Projects | User not logged in');
+      return;
+    }
     const newProjectRef = doc(collection(db, 'projects'));
     await setDoc(newProjectRef, {
       userId: user.uid,
       name: 'New Project',
-      data: {}, // Initial project data
+      data: {},
     });
-    router.push(`/projects/${newProjectRef.id}`);
+    setNewProjectId(newProjectRef.id);
   };
-
+  
+  
   const handleDeleteProject = async (projectId: string) => {
     if (!user) return;
     const projectRef = doc(db, 'projects', projectId);
@@ -66,8 +88,12 @@ const ProjectsPage = () => {
     );
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="p-5">
+    <div className="flex-1 mt-20">
       <h1>My Projects</h1>
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4" onClick={handleCreateNewProject}>
         + New Project
