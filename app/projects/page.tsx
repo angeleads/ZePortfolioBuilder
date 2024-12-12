@@ -117,13 +117,13 @@ const ProjectsPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-5 bg-black text-white">
-      <h1 className="text-4xl mb-4">My Projects</h1>
+      <h1 className="text-4xl mb-20">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="md:col-span-1 bg-gray-900 rounded-lg p-4 hover:shadow-md hover:shadow-purple-400">
-          <div className="flex items-center justify-center py-2 mt-3">
+        <div className="md:col-span-1 bg-gray-900 hover:bg-purple-950 rounded-lg p-6 border-dashed border-2 border-purple-500 hover:border-purple-400">
+          <div className="flex items-center justify-center mt-10 pb-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 mr-2"
+              className="h-8 w-8 "
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -137,7 +137,7 @@ const ProjectsPage = () => {
             </svg>
           </div>
           <button
-            className="flex items-center justify-center w-full h-full  text-white font-bold text-lg rounded focus:outline-none focus:shadow-outline"
+            className="flex items-center justify-center w-full  text-white font-bold text-lg"
             onClick={handleCreateNewProject}
           >
             Add a New Project

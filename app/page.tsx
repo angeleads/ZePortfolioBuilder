@@ -1,34 +1,23 @@
-// app/page.tsx
-"use client";
+// app/showcase/page.tsx
 
-import { useState, useEffect } from "react";
-import { User } from "firebase/auth";
-import { auth } from "../providers/firebase";
-import { useRouter } from "next/navigation";
-import RootLayout from "./layout";
+import Header from '@/components/showcase/header';
+import HeroSection from '@/components/showcase/hero';
+import FeaturesSection from '@/components/showcase/feature';
+import TestimonialsSection from '@/components/showcase/purpose';
+import CallToActionSection from '@/components/showcase/callToAction';
+import Footer from '@/components/showcase/footer';
 
-export default function Page({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
+const Page = () => {
+  return (
+    <div className="bg-black text-white">
+      <Header />
+      <HeroSection />
+      <FeaturesSection />
+      <TestimonialsSection />
+      <CallToActionSection />
+      <Footer />
+    </div>
+  );
+};
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-      setIsLoading(false);
-    });
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    if (!user && !isLoading) {
-      router.push("/login");
-    }
-  }, [user, isLoading, router]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  return <RootLayout>{children}</RootLayout>;
-}
+export default Page;

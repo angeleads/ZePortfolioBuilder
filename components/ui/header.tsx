@@ -29,7 +29,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Site branding */}
           <div className="shrink-0 mr-2 mt-2">
-            <Link href="/projects" className="block text-3xl font-bold text-gray-200 hover:text-purple-300">
+            <Link href="/" className="block text-3xl font-bold text-gray-200 hover:text-purple-300">
               ZePortfolioBuilder
             </Link>
           </div>
