@@ -1,27 +1,54 @@
 // components/GrapesJsProjectComponent.tsx
 'use client'
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import GrapesJsStudio, {
   StudioCommands,
   ToastVariant,
 } from '@grapesjs/studio-sdk/react';
 import '@grapesjs/studio-sdk/style';
+import type { Editor } from 'grapesjs';
+import grapesjs from 'grapesjs';
 import { db } from '@/providers/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 
 const GrapesJsProjectComponent = ({ projectData, projectId }: { projectData: any; projectId: string }) => {
-  const [editor, setEditor] = useState<any>(null);
+  const [editor, setEditor] = useState<Editor>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const onReady = (e: any) => {
+  useEffect(() => {
+    if (containerRef.current) {
+      const grapesjsEditor = grapesjs.init({
+        container: containerRef.current,
+        fromElement: true,
+        height: "100%",
+        width: "auto",
+        storageManager: {
+          type: "local",
+          stepsBeforeSave: 1,
+        },
+        components: 'default',
+        plugins: ['gjs-plugin-export'],
+      });
+      grapesjsEditor.on('load', () => onReady(grapesjsEditor));
+    }
+  }, []);
+
+
+  const onReady = (editor: Editor) => {
+    console.log('Editor ready:', editor);
     if (projectData) {
-      e.loadProjectData(projectData.data);
-      setEditor(e);
+      console.log('Loading project data:', editor);
+      editor.loadProjectData(projectData.data);
+      setEditor(editor);
+    } else {
+      console.log('No project data found');
     }
   };
 
   const getProjetData = async () => {
+    console.log('Getting project data');
     if (editor && projectData) {
-      const updatedData = editor.getProjectData();
+      const updatedData = editor?.getProjectData();
       const projectRef = doc(db, 'projects', projectId);
       await updateDoc(projectRef, { data: updatedData });
       console.log({ updatedData });
@@ -37,23 +64,44 @@ const GrapesJsProjectComponent = ({ projectData, projectId }: { projectData: any
       variant: ToastVariant.Info,
     });
 
+    const getExportData = () => {
+      console.log('Getting export data');
+      if (editor) {
+        console.log({ html: editor?.getHtml(), css: editor?.getCss() });
+        showToast('log-html-css');
+      }
+    };
+
   return (
     <div className="flex-1 w-full h-full overflow-hidden">
+      <div className="space-x-3 mb-2 mt-3">
+          <button className="border rounded px-2 text-white" onClick={getExportData}>
+            Log HTML/CSS
+          </button>
+          <button className="border rounded px-2 text-white" onClick={getProjetData}>
+          Save Project
+        </button>
+      </div>
       {projectData && (
         <GrapesJsStudio
-          onReady={(e: any) => {
-            onReady(e);
-            setEditor(e);
-          }}
+          onReady={onReady}
           options={{
-            licenseKey: '02209ecd94b49d0b93f9689a98d177f8d3ad1d1b7294a10b42229da24f9b923',
-            project: projectData.data,
+            licenseKey: '212942b8b422419ba320b4ec56d0f3f4e0a8257a64dc4471b698f7b774dd16b9',
+            project: {
+              default: {
+                pages: [
+                  {
+                    name: 'Home',
+                    component: `<h1 style="padding: 2rem; text-align: center">
+                      Hello Studio 👋
+                    </h1>`,
+                  },
+                ],
+              },
+            },
           }}
         />
       )}
-      <button className="border rounded px-2" onClick={getProjetData}>
-        Save Project
-      </button>
     </div>
   );
 };

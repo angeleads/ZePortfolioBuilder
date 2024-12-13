@@ -45,7 +45,7 @@ const SignupPage = () => {
             placeholder="zypriano"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
+            className="border rounded-xl w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
             required
           />
         </div>
@@ -56,7 +56,7 @@ const SignupPage = () => {
             value={email}
             placeholder="zypriano@zyprim.com"
             onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
+            className="border rounded-xl w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
             required
           />
         </div>
@@ -67,7 +67,7 @@ const SignupPage = () => {
             value={password}
             placeholder="********"
             onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-xl w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
+            className="border rounded-xl w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
             required
           />
         </div>

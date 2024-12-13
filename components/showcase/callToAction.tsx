@@ -7,7 +7,6 @@ const CallToActionSection = () => {
     <section
       id="call-to-action"
       className="h-screen flex flex-col justify-center items-center p-20 bg-cover bg-center"
-      style={{ backgroundImage: "url(/call-to-action-background.jpg)" }}
     >
       <h2 className="text-5xl mb-4 font-bold bg-gradient-to-b bg-clip-text text-transparent from-slate-200 to-slate-500">Ready to Get Started?</h2>
       <Link
