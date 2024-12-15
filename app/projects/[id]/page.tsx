@@ -78,21 +78,19 @@ const ProjectIdPage = () => {
 
   if (isLoading || !projectData) {
     return (
-      <div
-        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
-        role="status"
-      >
-        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Loading...
-        </span>
+      <div className="flex justify-center items-center h-screen bg-black">
+        <div
+          className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
+          role="status"
+        ></div>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex-1 justify-center items-center h-screen">
-        <p className="font-bold text-2xl">
+      <div className="flex justify-center items-center h-screen bg-black">
+        <p className="font-bold text-2xl text-white">
           You must be logged in to view this project.
         </p>
       </div>

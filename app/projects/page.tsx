@@ -136,13 +136,11 @@ const ProjectsPage = () => {
 
   if (isLoading) {
     return (
-      <div
-        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
-        role="status"
-      >
-        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Loading...
-        </span>
+      <div className="flex justify-center items-center h-screen">
+        <div
+          className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
+          role="status"
+        ></div>
       </div>
     );
   }
@@ -152,17 +150,17 @@ const ProjectsPage = () => {
       <h1 className="text-5xl mb-20 font-bold">My Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div
-          className="md:col-span-1 bg-gray-900 hover:bg-purple-950 rounded-lg p-6 border-dashed border-2 border-purple-500 hover:border-purple-400"
+          className="md:col-span-1 bg-gray-900 hover:bg-purple-950 rounded-lg p-10 border-dashed border-2 border-purple-500 hover:border-purple-400"
           onClick={() => setIsModalOpen(true)}
         >
-          <div className="flex items-center justify-center mt-10 pb-3">
+          <div className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-8 h-8 mb-5"
             >
               <path
                 strokeLinecap="round"
@@ -187,73 +185,87 @@ const ProjectsPage = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] z-[100] bg-[#111] p-[20px] rounded-2xl">
-          <h2 className="text-center text-2xl pb-4">Create New Project</h2>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            onClick={() => setIsModalOpen(false)}
-            className="w-10 h-10 absolute top-[10px] right-[10px] text-red-500 cursor-pointer"
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+          <div
+            className="bg-gray-900 rounded-2xl p-4 shadow-md w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleCreateNewProject();
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Enter Project Name"
-              value={newProjectName}
-              onChange={(e) => setNewProjectName(e.target.value)}
-              required
-              className="w-full p-[10px] mb-[10px] rounded-full text-gray-800"
-            />
-            <textarea
-              placeholder="Enter Project Description"
-              value={newProjectDescription}
-              onChange={(e) => setNewProjectDescription(e.target.value)}
-              required
-              rows={4}
-              className="w-full p-[10px] mb-[10px] rounded-2xl text-gray-800"
-            />
-            <button
-              type="submit"
-              className="bg-purple-400 w-full hover:bg-purple-500 text-white py-[10px] px-[15px] rounded-full"
+            <div className="flex justify-end">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                onClick={() => setIsModalOpen(false)}
+                className="w-10 h-10 text-red-500 hover:text-red-900 cursor-pointer"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </div>
+            <h2 className="text-center text-3xl pb-4 font-bold">
+              Create New Project
+            </h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCreateNewProject();
+              }}
             >
-              Add Project
-            </button>
-          </form>
+              <input
+                type="text"
+                placeholder="Enter Project Name"
+                value={newProjectName}
+                onChange={(e) => setNewProjectName(e.target.value)}
+                required
+                className="w-full p-[10px] mb-[10px] rounded-full text-gray-800"
+              />
+              <textarea
+                placeholder="Enter Project Description"
+                value={newProjectDescription}
+                onChange={(e) => setNewProjectDescription(e.target.value)}
+                required
+                rows={4}
+                className="w-full p-[10px] mb-[10px] rounded-2xl text-gray-800"
+              />
+              <button
+                type="submit"
+                className="bg-purple-400 w-full hover:bg-purple-500 text-white py-[10px] px-[15px] rounded-full"
+              >
+                Add Project
+              </button>
+            </form>
+          </div>
         </div>
       )}
       {isDeleteModalOpen && (
-        <div className="fixed top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] z-[100] bg-[#111] p-[20px] rounded-2xl">
-          <h2 className="text-center text-2xl pb-4">Confirm Delete</h2>
-          <p className="text-center pb-4">
-            Are you sure you want to delete this project?
-          </p>
-          <div className="flex justify-around">
-            <button
-              onClick={confirmDeleteProject}
-              className="bg-red-500 hover:bg-red-600 text-white py-[10px] px-[15px] rounded-full"
-            >
-              Yes, I'm sure
-            </button>
-            <button
-              onClick={closeDeleteModal}
-              className="bg-gray-500 hover:bg-gray-600 text-white py-[10px] px-[15px] rounded-full"
-            >
-              No, nevermind
-            </button>
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+          <div
+            className="bg-gray-900 rounded-2xl p-8 shadow-md w-full max-w-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-center text-2xl pb-4 font-bold">Confirm Delete</h2>
+            <p className="text-center pb-4">
+              Are you sure you want to delete this project?
+            </p>
+            <div className="flex justify-around">
+              <button
+                onClick={confirmDeleteProject}
+                className="bg-red-500 hover:bg-red-600 font-bold text-white py-[10px] px-[15px] rounded-full"
+              >
+                Yes, I'm sure
+              </button>
+              <button
+                onClick={closeDeleteModal}
+                className="bg-gray-500 hover:bg-gray-600 font-bold text-white py-[10px] px-[15px] rounded-full"
+              >
+                No, nevermind
+              </button>
+            </div>
           </div>
         </div>
       )}
