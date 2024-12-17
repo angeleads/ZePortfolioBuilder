@@ -86,7 +86,7 @@ const GrapesJsProjectComponent = ({ projectData, projectId }: { projectData: any
         <GrapesJsStudio
           onReady={onReady}
           options={{
-            licenseKey: process.env.NEXT_PUBLIC_GRAPESJS_LICENSE_KEY,
+            licenseKey: process.env.GRAPESJS_LICENSE_KEY,
             project: {
               default: {
                 pages: [
