@@ -1008,6 +1008,11 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.11:
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
+grapesjs-plugin-forms@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/grapesjs-plugin-forms/-/grapesjs-plugin-forms-2.0.6.tgz"
+  integrity sha512-4rDob01NLiJWas5JW1FCpQc/4R4oS4wc/qr7pQwjGUiDzHNPKZLix10FqUKEv7hnzPmBaR2ejBL87sMwz11Tlw==
+
 grapesjs@^0.22.3, grapesjs@^0.22.4:
   version "0.22.4"
   resolved "https://registry.npmjs.org/grapesjs/-/grapesjs-0.22.4.tgz"

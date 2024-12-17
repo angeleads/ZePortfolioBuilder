@@ -41,7 +41,7 @@ export default function Header() {
               <li>
                 <Link
                   href="/projects"
-                  className="text-lg font-medium text-gray-200 hover:underline hover:text-purple-300  px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="text-lg font-bold text-gray-200 hover:underline hover:text-purple-400  px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Projects
                 </Link>
@@ -49,7 +49,7 @@ export default function Header() {
               <li>
                 <Link
                   href="/profile"
-                  className="text-lg font-medium text-gray-200 hover:underline hover:text-purple-300 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  className="text-lg font-bold text-gray-200 hover:underline hover:text-purple-400 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
                   Profile
                 </Link>

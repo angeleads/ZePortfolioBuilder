@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 interface Project {
   id: string;
   name: string;
+  description: string;
   editing: boolean;
 }
 
@@ -18,12 +19,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onEditName,
   onDelete,
-  handleToggleEditing,
 }) => {
   const router = useRouter();
 
   return (
-    <div className="md:col-span-1 bg-gray-900 rounded-lg p-10 hover:shadow-md hover:shadow-purple-400">
+    <div className="md:col-span-1 bg-gray-900 rounded-lg p-8 hover:shadow-md hover:shadow-purple-400">
       {project.editing ? (
         <input
           type="text"
@@ -33,15 +33,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 text-black"
         />
       ) : (
-        <h2
-          onClick={() => onEditName(project.id, project.name)}
-          className="cursor-pointer text-2xl mb-4"
-        >
-          {project.name}
-        </h2>
+        <div>
+          <div className="flex justify-between">
+            <h2
+              onClick={() => onEditName(project.id, project.name)}
+              className="cursor-pointer text-2xl mb-2"
+            >
+              {project.name}
+            </h2>
+          </div>
+          <p className="text-gray-500 text-sm mt-7">{project.description}</p>
+        </div>
       )}
-      <p className="text-gray-400 mb-2">Project ID: {project.id}</p>
-      <div className="flex justify-between ">
+      <div className="flex justify-between mt-10">
         <button
           onClick={() => router.push(`/projects/${project.id}`)}
           className="bg-gray-100 text-black hover:bg-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"

@@ -19,6 +19,7 @@
     "aos": "^3.0.0-beta.6",
     "firebase": "^11.0.2",
     "grapesjs": "^0.22.4",
+    "grapesjs-plugin-forms": "^2.0.6",
     "next": "^14.0.4",
     "nodemailer": "^6.9.7",
     "react": "^18.2.0",

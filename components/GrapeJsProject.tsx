@@ -59,9 +59,9 @@ const GrapesJsProjectComponent = ({ projectData, projectId }: { projectData: any
   const showToast = (id: string) =>
     editor?.runCommand(StudioCommands.toastAdd, {
       id,
-      header: 'Toast header',
-      content: 'Data logged in console',
-      variant: ToastVariant.Info,
+      header: 'ZePortfolio header',
+      content: 'Your content is saved',
+      variant: ToastVariant.Success,
     });
 
     const getExportData = () => {
@@ -86,7 +86,7 @@ const GrapesJsProjectComponent = ({ projectData, projectId }: { projectData: any
         <GrapesJsStudio
           onReady={onReady}
           options={{
-            licenseKey: '212942b8b422419ba320b4ec56d0f3f4e0a8257a64dc4471b698f7b774dd16b9',
+            licenseKey: process.env.NEXT_PUBLIC_GRAPESJS_LICENSE_KEY,
             project: {
               default: {
                 pages: [

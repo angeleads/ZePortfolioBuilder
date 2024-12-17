@@ -21,7 +21,7 @@ const ProjectsPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<
-    { id: string; name: string; data: any; editing: boolean }[]
+    { id: string; name: string; description: string, data: any; editing: boolean }[]
   >([]);
   const router = useRouter();
   const [newProjectId, setNewProjectId] = useState<string | null>(null);
@@ -48,6 +48,7 @@ const ProjectsPage = () => {
       const projectsList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
+        description: doc.data().data.description,
         data: doc.data().data,
         editing: false,
       }));
@@ -147,10 +148,10 @@ const ProjectsPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-5 bg-black text-white">
-      <h1 className="text-5xl mb-20 font-bold">My Projects</h1>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <h1 className="text-5xl mb-20 font-bold font-">My Projects</h1>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 cursor-pointer">
         <div
-          className="md:col-span-1 bg-gray-900 hover:bg-purple-950 rounded-lg p-10 border-dashed border-2 border-purple-500 hover:border-purple-400"
+          className="md:col-span-1 bg-gray-900 hover:bg-purple-950 rounded-lg p-16 border-dashed border-2 border-purple-500 hover:border-purple-400"
           onClick={() => setIsModalOpen(true)}
         >
           <div className="flex items-center justify-center">
@@ -160,7 +161,7 @@ const ProjectsPage = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-8 h-8 mb-5"
+              className="w-10 h-10 mb-5"
             >
               <path
                 strokeLinecap="round"
@@ -169,7 +170,7 @@ const ProjectsPage = () => {
               />
             </svg>
           </div>
-          <button className="flex items-center justify-center w-full text-white font-bold text-lg">
+          <button className="flex items-center justify-center w-full text-white font-bold text-xl pt-6">
             Add a New Project
           </button>
         </div>
@@ -187,10 +188,10 @@ const ProjectsPage = () => {
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div
-            className="bg-gray-900 rounded-2xl p-4 shadow-md w-full max-w-md"
+            className="bg-gray-900 rounded-2xl p-8 shadow-md w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-end">
+            <div className="flex justify-end items-end">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

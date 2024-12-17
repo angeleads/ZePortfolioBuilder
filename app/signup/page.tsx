@@ -35,8 +35,7 @@ const SignupPage = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-black text-white">
       <form onSubmit={handleSubmit} className="bg-gray-900 p-8 rounded-lg shadow-xl shadow-purple-400 w-96">
-      <h1 className="text-2xl font-bold text-center">Signup to</h1>
-      <h1 className="text-2xl font-bold mb-6 text-center">ZePortfolioBuilder</h1>
+      <h1 className="text-2xl font-bold text-center font-inter mb-6">Welcome</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <div className="mb-4">
           <input
