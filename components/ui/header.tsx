@@ -22,7 +22,7 @@ export default function Header() {
   return (
     <header
       className={`fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out ${
-        !top ? "bg-green-50 backdrop-blur-sm shadow-sm" : ""
+        !top ? "bg-black backdrop-blur-sm shadow-sm" : ""
       }`}
     >
       <div className="max-w-8xl mx-auto px-5 sm:px-6">
@@ -56,7 +56,6 @@ export default function Header() {
               </li>
             </ul>
           </nav>
-
           <MobileMenu />
         </div>
       </div>

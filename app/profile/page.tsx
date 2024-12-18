@@ -12,7 +12,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<{
-    name: string;
+    username: string;
     email: string;
   } | null>(null);
   const router = useRouter();
@@ -31,7 +31,7 @@ const ProfilePage = () => {
       const userRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
-        setUserData(userDoc.data() as { name: string; email: string });
+        setUserData(userDoc.data() as { username: string; email: string });
       } else {
         setUserData(null);
       }
@@ -50,14 +50,14 @@ const ProfilePage = () => {
     if (!user) return;
     const userRef = doc(db, 'users', user.uid);
     const target = e.target as typeof e.target & {
-      name: { value: string };
+      username: { value: string };
       email: { value: string };
     };
     await updateDoc(userRef, {
-      name: target.name.value,
+      username: target.username.value,
       email: target.email.value,
     });
-    setUserData({ name: target.name.value, email: target.email.value });
+    setUserData({ username: target.username.value, email: target.email.value });
   };
 
   const handleLogout = async () => {
@@ -92,8 +92,8 @@ const ProfilePage = () => {
             <div className="mb-4">
               <input
                 type="text"
-                id="name"
-                defaultValue={userData.name}
+                id="username"
+                defaultValue={userData.username}
                 className="shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline bg-gray-700"
               />
             </div>
