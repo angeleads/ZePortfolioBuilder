@@ -72,7 +72,6 @@ const ProjectIdPage = () => {
 
   const handleUpdateProjectName = async () => {
     if (!user) {
-      console.log("ProjectID | User not logged in");
       return;
     }
     const projectRef = doc(db, "projects", String(projectId));

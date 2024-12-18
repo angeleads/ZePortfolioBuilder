@@ -38,15 +38,40 @@ const ProjectsPage = () => {
   const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
+    const checkAuthState = async () => {
+      try {
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          setUser(currentUser);
+        } else {
+          router.push("/login");
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Auth check error:", error);
+        router.push("/login");
+        setIsLoading(false);
+      }
+    };
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        router.push("/login");
+      }
       setIsLoading(false);
     });
-    return unsubscribe;
-  }, [auth]);
+
+    checkAuthState();
+
+    return () => unsubscribe();
+  }, [router]);
 
   useEffect(() => {
-    if (!user || isLoading) return;
+    if (!user || isLoading) {
+        return;
+    }
     const fetchProjects = async () => {
       const projectsRef = collection(db, "projects");
       const q = query(projectsRef, where("userId", "==", user.uid));
@@ -61,7 +86,7 @@ const ProjectsPage = () => {
       setProjects(projectsList);
     };
     fetchProjects();
-  }, [user, isLoading]);
+  }, [user, isLoading, db]);
 
   useEffect(() => {
     if (newProjectId) {
@@ -71,7 +96,6 @@ const ProjectsPage = () => {
 
   const handleCreateNewProject = async () => {
     if (!user) {
-      console.log("Projects | User not logged in");
       return;
     }
     const newProjectRef = doc(collection(db, "projects"));
@@ -137,18 +161,19 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     if (!user && !isLoading) {
-      router.push("/login");
+      router.push("/projects");
     }
   }, [user, isLoading, router]);
 
   if (!isLoading && !user) {
     return (
-      <div className="bg-black">
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-white font-bold text-2xl">Loading...</div>
+        <div className="flex justify-center items-center h-screen bg-black">
+          <div
+            className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
+            role="status"
+          ></div>
         </div>
-      </div>
-    );
+      );
   }
 
   return (
