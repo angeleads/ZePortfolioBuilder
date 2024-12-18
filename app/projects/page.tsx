@@ -21,7 +21,13 @@ const ProjectsPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<
-    { id: string; name: string; description: string, data: any; editing: boolean }[]
+    {
+      id: string;
+      name: string;
+      description: string;
+      data: any;
+      editing: boolean;
+    }[]
   >([]);
   const router = useRouter();
   const [newProjectId, setNewProjectId] = useState<string | null>(null);
@@ -37,7 +43,7 @@ const ProjectsPage = () => {
       setIsLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     if (!user || isLoading) return;
@@ -56,12 +62,6 @@ const ProjectsPage = () => {
     };
     fetchProjects();
   }, [user, isLoading]);
-
-  useEffect(() => {
-    if (!user && !isLoading) {
-      router.push("/login");
-    }
-  }, [user, isLoading, router]);
 
   useEffect(() => {
     if (newProjectId) {
@@ -135,13 +135,18 @@ const ProjectsPage = () => {
     }
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!user && !isLoading) {
+      router.push("/login");
+    }
+  }, [user, isLoading, router]);
+
+  if (!isLoading && !user) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div
-          className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] text-purple-400"
-          role="status"
-        ></div>
+      <div className="bg-black">
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-white font-bold text-2xl">Loading...</div>
+        </div>
       </div>
     );
   }
@@ -170,7 +175,7 @@ const ProjectsPage = () => {
               />
             </svg>
           </div>
-          <button className="flex items-center justify-center w-full text-white font-bold text-xl pt-6">
+          <button className="flex items-center justify-center w-full text-white font-bold text-xl">
             Add a New Project
           </button>
         </div>
@@ -249,7 +254,9 @@ const ProjectsPage = () => {
             className="bg-gray-900 rounded-2xl p-8 shadow-md w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-center text-2xl pb-4 font-bold">Confirm Delete</h2>
+            <h2 className="text-center text-2xl pb-4 font-bold">
+              Confirm Delete
+            </h2>
             <p className="text-center pb-4">
               Are you sure you want to delete this project?
             </p>

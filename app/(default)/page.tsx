@@ -7,7 +7,7 @@ import TestimonialsSection from '@/components/showcase/purpose';
 import CallToActionSection from '@/components/showcase/callToAction';
 import Footer from '@/components/showcase/footer';
 
-const Page = () => {
+const DefaultPage = () => {
   return (
     <div className="bg-black text-white">
       <Header />
@@ -20,4 +20,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default DefaultPage;

@@ -30,22 +30,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           value={project.name}
           onChange={(e) => onEditName(project.id, e.target.value)}
           onBlur={() => onEditName(project.id, project.name)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 text-black"
+          className="shadow appearance-none border rounded w-full py-2 px-3 pr-10 leading-tight focus:outline-none focus:shadow-outline bg-gray-100 text-black"
         />
       ) : (
         <div>
-          <div className="flex justify-between">
+          <div className="flex justify-center items-center">
             <h2
               onClick={() => onEditName(project.id, project.name)}
-              className="cursor-pointer text-2xl mb-2"
+              className="cursor-pointer text-2xl"
             >
               {project.name}
             </h2>
           </div>
-          <p className="text-gray-500 text-sm mt-7">{project.description}</p>
         </div>
       )}
-      <div className="flex justify-between mt-10">
+      <div className="flex justify-between mt-20 w-auto px-4">
         <button
           onClick={() => router.push(`/projects/${project.id}`)}
           className="bg-gray-100 text-black hover:bg-gray-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"

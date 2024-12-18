@@ -13,6 +13,7 @@ const ProjectIdPage = () => {
   const [projectData, setProjectData] = useState<any>(null);
   const [isEditingName, setIsEditingName] = useState(false);
   const [projectName, setProjectName] = useState("");
+  const [projectDescription, setDescription] = useState("");
   const { id } = useParams();
   const projectId = Array.isArray(id) ? id[0] : id;
   const router = useRouter();
@@ -42,10 +43,12 @@ const ProjectIdPage = () => {
         console.log("ProjectID | Fetched Project Data:", projectData);
         setProjectData(projectData);
         setProjectName(projectDoc.data().name);
+        setDescription(projectDoc.data().description);
       } else {
         const initData = {
           userId: user.uid,
           name: "New Project",
+          description: "New Project Description",
           data: {
             pages: [],
             components: [],
@@ -54,6 +57,7 @@ const ProjectIdPage = () => {
         await setDoc(projectRef, initData);
         setProjectData(initData);
         setProjectName(initData.name);
+        setDescription(initData.description);
       }
     };
 
