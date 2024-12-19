@@ -5,7 +5,7 @@ import { User } from "firebase/auth";
 import { db, auth } from "@/providers/firebase";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
-import GrapesJsProject from "@/components/GrapeJsProject";
+import GrapesJsProject from "@/components/projects/GrapeJsProject";
 
 const ProjectIdPage = () => {
   const [user, setUser] = useState<User | null>(null);
