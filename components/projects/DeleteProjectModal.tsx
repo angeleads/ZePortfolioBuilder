@@ -15,7 +15,7 @@ export const DeleteProjectModal: FC<DeleteProjectModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm z-50">
       <div
         className="bg-gray-900 rounded-2xl p-8 shadow-md w-full max-w-md"
         onClick={(e) => e.stopPropagation()}

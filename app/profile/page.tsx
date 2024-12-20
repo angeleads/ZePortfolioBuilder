@@ -41,7 +41,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!user && !isLoading) {
-      router.push('/login');
+      router.push('/auth');
     }
   }, [user, isLoading, router]);
 
@@ -64,7 +64,7 @@ const ProfilePage = () => {
     if (user) {
       await signOut(auth);
       console.log(`User ${user.uid} just logged out`);
-      router.push('/login');
+      router.push('/auth');
     }
   };
 

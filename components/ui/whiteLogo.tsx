@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import WhiteLogoPic from '@/public/images/logos/logoCar_whiteCar_noBg.png' 
+import WhiteLogoPic from '@/public/images/logos/logo-white.png' 
 import Image from 'next/image'
 
 export default function WhiteLogo() {

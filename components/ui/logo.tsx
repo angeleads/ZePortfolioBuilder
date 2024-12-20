@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LogoPic from '@/public/images/logos/logocoche.png' 
+import LogoPic from '@/public/images/logos/logo-white.png' 
 import Image from 'next/image'
 
 export default function Logo() {
