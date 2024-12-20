@@ -140,7 +140,7 @@ const ProjectsPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-black text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen p-2 bg-zinc-950 text-white">
       <h1 className="text-5xl mb-20 font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
         My Projects
       </h1>

@@ -112,20 +112,20 @@ const AuthPage = () => {
 
         {/* Sliding Image */}
         <div 
-          className={`absolute top-0 w-1/2 h-full transition-transform duration-700 ease-in-out ${
-            isLogin ? 'left-1/2' : 'left-0'
+          className={`absolute top-0 w-1/2 h-full translate-x-4 duration-700 ease-in-out ${
+            isLogin ? 'left-1/2' : 'left-0' 
           }`}
         >
           <div className="w-full h-full relative">
             <Image
-              src="/images/login-image.jpg"
+              src="/images/auth-image.jpg"
               alt="Authentication"
               width={500}
               height={600}
-              className="w-full h-full object-cover rounded-2xl"
+              className="w-full h-full object-cover rounded-l-lg"
               priority
             />
-            <div className="absolute inset-0 bg-purple-600/30 backdrop-blur-[2px] rounded-2xl" />
+            <div className="absolute inset-0 bg-purple-600/30 rounded-2xl" />
           </div>
         </div>
 
