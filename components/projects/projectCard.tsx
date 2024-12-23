@@ -75,7 +75,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
   const IconComponent = ICON_COMPONENTS[project.icon.toLowerCase()] || Rocket;
 
   return (
-    <div className={`relative group rounded-2xl overflow-hidden transition-all hover:scale-[1.02] shadow-2xl duration-300 hover:shadow-${project.color}`}>      
+    <div className={`relative group rounded-3xl overflow-hidden transition-all hover:scale-[1.02] shadow-2xl duration-300 border hover:shadow-${project.color}`}>      
       {/* Card Content */}
       <div className="relative bg-gray-900 p-6 rounded-2xl">
         {/* Project Icon */}
@@ -93,7 +93,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
             }}
             className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
           >
-            <Edit2 className="w-4 h-4 text-gray-400" />
+            <Edit2 className="w-4 h-4 text-gray-400 hover:text-gray-200" />
           </button>
           <button
             onClick={(e) => {
@@ -101,9 +101,9 @@ const ProjectCard: FC<ProjectCardProps> = ({
               e.stopPropagation();
               onDelete(project.id);
             }}
-            className="p-2 rounded-full bg-gray-800 hover:bg-red-900/50 transition-colors group"
+            className="p-2 rounded-full bg-gray-800 transition-colors"
           >
-            <Trash2 className="w-4 h-4 text-gray-400 group-hover:text-red-400" />
+            <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-400" />
           </button>
         </div>
 

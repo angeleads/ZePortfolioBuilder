@@ -36,7 +36,7 @@ const GrapesJsProjectComponent = ({
           type: "local",
           stepsBeforeSave: 1,
         },
-        components: "default",
+        components: "default", 
         plugins: [plugin, basic, forms],
         pluginsOpts: {
           pgexport: {
