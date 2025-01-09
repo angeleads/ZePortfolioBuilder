@@ -12,6 +12,7 @@ interface Project {
   labels: string[];
   data: any;
   editing: boolean;
+  deploymentUrl?: string;
 }
 
 interface ProjectListProps {

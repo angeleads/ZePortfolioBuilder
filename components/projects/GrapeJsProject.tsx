@@ -14,6 +14,7 @@ import plugin from "grapesjs-preset-webpage";
 import basic from "grapesjs-blocks-basic";
 import forms from "grapesjs-plugin-forms";
 import "grapesjs/dist/css/grapes.min.css";
+import { Buffer } from "buffer";
 
 const GrapesJsProjectComponent = ({
   projectData,
@@ -23,6 +24,7 @@ const GrapesJsProjectComponent = ({
   projectId: string;
 }) => {
   const [editor, setEditor] = useState<Editor>();
+  const [isDeploying, setIsDeploying] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const GrapesJsProjectComponent = ({
           type: "local",
           stepsBeforeSave: 1,
         },
-        components: "default", 
+        components: "default",
         plugins: [plugin, basic, forms],
         pluginsOpts: {
           pgexport: {
@@ -83,13 +85,124 @@ const GrapesJsProjectComponent = ({
     }
   };
 
-  const showToast = (id: string) =>
+  const deployToVercel = async () => {
+    if (!editor || !projectData) return;
+
+    setIsDeploying(true);
+    try {
+      const token = process.env.NEXT_PUBLIC_VERCEL_TOKEN;
+      const teamId = process.env.NEXT_PUBLIC_VERCEL_TEAM_ID;
+      console.log({ token, teamId });
+
+      if (!token || !teamId) {
+        throw new Error("Vercel configuration missing");
+      }
+
+      // Extract HTML and CSS
+      const html = editor.getHtml();
+      const css = editor.getCss();
+
+      // Create the file content
+      const fileContent = `<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>${projectData.name || "My Website"}</title>
+      <style>${css}</style>
+    </head>
+    <body>
+      ${html}
+    </body>
+  </html>`;
+
+      // Convert the file content to base64
+      const encodedContent = Buffer.from(fileContent).toString("base64");
+
+      // Create a new deployment using Vercel API
+      const deploymentResponse = await fetch(
+        "https://api.vercel.com/v13/deployments",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: `user-project-${projectId}`,
+            files: [
+              {
+                file: "index.html",
+                encoding: "base64",
+                content: encodedContent,
+              },
+            ],
+            framework: null,
+            public: true,
+            target: "production",
+            teamId: teamId,
+            builds: [{ src: "index.html", use: "@vercel/static" }],
+          }),
+        }
+      );
+
+      if (!deploymentResponse.ok) {
+        const errorData = await deploymentResponse.json();
+        console.error("Deployment error details:", errorData);
+        throw new Error(
+          `Deployment failed: ${errorData.error?.message || "Unknown error"}`
+        );
+      }
+
+      const deployment = await deploymentResponse.json();
+      console.log("Deployment response:", deployment);
+
+      // Generate the deployment URL
+      const deploymentUrl = deployment.url
+        ? `https://${deployment.url}`
+        : `https://user-project-${projectId}.vercel.app`;
+
+      // Update Firebase with deployment URL
+      const projectRef = doc(db, "projects", projectId);
+      await updateDoc(projectRef, {
+        deploymentUrl: deploymentUrl,
+      });
+      const errorData = await deploymentResponse.json();
+      console.log("Full error response:", errorData);
+
+      showToast("deployment-success");
+    } catch (error) {
+      console.error("Deployment failed:", error);
+      showToast("deployment-error");
+    } finally {
+      setIsDeploying(false);
+    }
+  };
+
+  const showToast = (id: string) => {
+    const toastConfig = {
+      "deployment-success": {
+        header: "Deployment Successful!",
+        content: "Your site has been deployed",
+        variant: ToastVariant.Success,
+      },
+      "deployment-error": {
+        header: "Deployment Failed",
+        content: "There was an error deploying your site",
+        variant: ToastVariant.Error,
+      },
+      "log-project-data": {
+        header: "Saved!",
+        content: "Your content is saved",
+        variant: ToastVariant.Success,
+      },
+    }[id];
+
     editor?.runCommand(StudioCommands.toastAdd, {
       id,
-      header: "Congratulations!",
-      content: "Your content is saved",
-      variant: ToastVariant.Success,
-  });
+      ...toastConfig,
+    });
+  };
 
   return (
     <div className="flex-1 w-full h-full overflow-hidden">
@@ -100,27 +213,49 @@ const GrapesJsProjectComponent = ({
         >
           Save Project
         </button>
+        <button
+          className={`border rounded px-2 text-white font-bold ${
+            isDeploying
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-purple-600"
+          }`}
+          onClick={deployToVercel}
+          disabled={isDeploying}
+        >
+          {isDeploying ? "Deploying..." : "Deploy to Vercel"}
+        </button>
+        {projectData.deploymentUrl && (
+          <a
+            href={projectData.deploymentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border rounded px-2 text-purple-400 font-bold hover:text-purple-300"
+          >
+            View Site
+          </a>
+        )}
       </div>
       {projectData && (
         <StudioEditor
           onReady={onReady}
           options={{
-            licenseKey: '212942b8b422419ba320b4ec56d0f3f4e0a8257a64dc4471b698f7b774dd16b9',
-            theme: 'dark',
+            licenseKey:
+              "212942b8b422419ba320b4ec56d0f3f4e0a8257a64dc4471b698f7b774dd16b9",
+            theme: "dark",
             project: {
-              type: 'web',
-              id: projectId
+              type: "web",
+              id: projectId,
             },
             identity: {
-              id: projectId
+              id: projectId,
             },
             assets: {
-              storageType: 'cloud'
+              storageType: "cloud",
             },
             storage: {
-              type: 'cloud',
+              type: "cloud",
               autosaveChanges: 100,
-              autosaveIntervalMs: 10000
+              autosaveIntervalMs: 10000,
             },
           }}
         />

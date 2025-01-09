@@ -110,12 +110,12 @@ const ProjectIdPage = () => {
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               onBlur={handleUpdateProjectName}
-              className="shadow bg-black appearance-none border rounded w-full py-2 px-3 text-xl text-gray-100 font-bold leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow bg-black appearance-none border rounded w-full py-2 px-3 text-xl mt-10 text-gray-100 font-bold leading-tight focus:outline-none focus:shadow-outline"
             />
           ) : (
             <h2
               onClick={() => setIsEditingName(true)}
-              className="font-bold text-white text-xl shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="font-bold text-white text-xl shadow appearance-none border rounded w-full py-2 px-3 mt-10 leading-tight focus:outline-none focus:shadow-outline"
             >
               {projectName}
             </h2>
@@ -123,7 +123,7 @@ const ProjectIdPage = () => {
           {isEditingName && (
             <button
               onClick={handleUpdateProjectName}
-              className="bg-purple-300 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+              className="bg-purple-300 hover:bg-purple-400 text-white font-bold py-2 px-4 mt-10 rounded focus:outline-none focus:shadow-outline ml-2"
             >
               Save
             </button>

@@ -23,8 +23,8 @@ export default function ProjectsIdLayout({
 
   return (
     <>
-      <Header />
       <main className="grow">{children}</main>
+      <Header />
     </>
   );
 }

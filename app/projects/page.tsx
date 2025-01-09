@@ -29,6 +29,7 @@ interface Project {
   labels: string[];
   data: any;
   editing: boolean;
+  deploymentUrl?: string;
 }
 
 const ProjectsPage = () => {
