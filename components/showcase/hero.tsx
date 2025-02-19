@@ -65,8 +65,8 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
 
-              <Link href="/demo" className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold border border-purple-500/30 hover:border-purple-500 transition-all duration-300">
-                <span>Watch Demo</span>
+              <Link href="https://github.com/angeleads/ZePortfolioBuilder" className="group inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-semibold border border-purple-500/30 hover:border-purple-500 transition-all duration-300">
+                <span>Visit Github</span>
                 <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

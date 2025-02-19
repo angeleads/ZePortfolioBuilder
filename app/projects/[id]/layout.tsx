@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import Header from "@/components/ui/header";
-
 export default function ProjectsIdLayout({
   children,
 }: {
@@ -24,7 +22,6 @@ export default function ProjectsIdLayout({
   return (
     <>
       <main className="grow">{children}</main>
-      <Header />
     </>
   );
 }
