@@ -46,30 +46,30 @@ This is a **web development tool** built with **Next.js**, **Firebase**, and **T
 1. Clone this repository:
 
     ```
-        git clone https://github.com/your-repo/project-management-app.git
-        cd project-management-app
+    git clone git@github.com:angeleads/ZePortfolioBuilder.git
+    cd ze-portfolio-builder
     ```
 
 2. Install dependencies:
     ```
-        npm install
+    npm install
     ```
 
 3. Create a `.env.local` file in the root directory and add your Firebase configuration:
 
     ```
-        NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key-here
-        NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain-here.firebaseapp.com
-        NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id-here
-        NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket-here.appspot.com
-        NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id-here
-        NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id-here
+    NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key-here
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain-here.firebaseapp.com
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id-here
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket-here.appspot.com
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id-here
+    NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id-here
     ```
 
 4. Run the development server:
 
     ```
-        npm run dev
+    npm run dev
     ```
 
 5. Open your browser and navigate to `http://localhost:3000`.
@@ -95,9 +95,6 @@ This is a **web development tool** built with **Next.js**, **Firebase**, and **T
 
 ### `/components`
 - Modular components used across the application.
-
-### `/css`
-- Custom stylesheets for additional design elements.
 
 ---
 
