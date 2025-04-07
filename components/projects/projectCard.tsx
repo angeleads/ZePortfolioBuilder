@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import Link from 'next/link';
-import { 
-  Edit2, 
+import { FC } from "react";
+import Link from "next/link";
+import {
+  Edit2,
   Trash2,
   Rocket,
   Stars,
@@ -16,8 +16,8 @@ import {
   Brush,
   Pen,
   Telescope,
-  Flower2
-} from 'lucide-react';
+  Flower2,
+} from "lucide-react";
 
 interface Project {
   id: string;
@@ -38,7 +38,6 @@ interface ProjectCardProps {
   onToggleEditing: (projectId: string) => void;
 }
 
-// Icon mapping object
 const ICON_COMPONENTS: { [key: string]: typeof Rocket } = {
   rocket: Rocket,
   stars: Stars,
@@ -53,7 +52,7 @@ const ICON_COMPONENTS: { [key: string]: typeof Rocket } = {
   brush: Brush,
   pen: Pen,
   telescope: Telescope,
-  flower2: Flower2
+  flower2: Flower2,
 };
 
 const ProjectCard: FC<ProjectCardProps> = ({
@@ -63,28 +62,25 @@ const ProjectCard: FC<ProjectCardProps> = ({
   onToggleEditing,
 }) => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       const target = e.target as HTMLInputElement;
       onEditName(project.id, target.value);
     }
   };
 
-  // Extract color class without 'bg-' prefix for text and border
-  const colorClass = project.color.replace('bg-', '');
-
-  // Get the icon component based on the project's icon name
+  const colorClass = project.color.replace("bg-", "");
   const IconComponent = ICON_COMPONENTS[project.icon.toLowerCase()] || Rocket;
 
   return (
-    <div className={`relative group rounded-3xl overflow-hidden transition-all hover:scale-[1.02] shadow-2xl duration-300 border hover:shadow-${project.color}`}>      
-      {/* Card Content */}
+    <div
+      className={`relative group rounded-3xl overflow-hidden transition-all hover:scale-[1.02] shadow-2xl duration-300 border hover:shadow-${project.color}`}
+    >
       <div className="relative bg-gray-900 p-6 rounded-2xl">
-        {/* Project Icon */}
-        <div className={`${project.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+        <div
+          className={`${project.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg`}
+        >
           <IconComponent className="w-6 h-6 text-white" />
         </div>
-
-        {/* Action Buttons */}
         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={(e) => {
@@ -109,7 +105,6 @@ const ProjectCard: FC<ProjectCardProps> = ({
         </div>
 
         <Link href={`/projects/${project.id}`} className="block space-y-4">
-          {/* Project Name */}
           {project.editing ? (
             <input
               type="text"
@@ -124,13 +119,9 @@ const ProjectCard: FC<ProjectCardProps> = ({
               {project.name}
             </h3>
           )}
-
-          {/* Project Description */}
           <p className="text-gray-400 text-sm line-clamp-2">
             {project.description}
           </p>
-
-          {/* Labels */}
           {project.labels && project.labels.length > 0 && (
             <div className="flex flex-wrap gap-2 pt-2">
               {project.labels.map((label) => (
@@ -146,8 +137,6 @@ const ProjectCard: FC<ProjectCardProps> = ({
             </div>
           )}
         </Link>
-
-        {/* Progress Indicator (Optional) */}
         <div className="mt-6">
           <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
             <div className={`h-full ${project.color} w-[100%]`} />

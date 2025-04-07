@@ -1,4 +1,3 @@
-// components/GrapesJsProjectComponent.tsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 import StudioEditor, {
@@ -87,46 +86,38 @@ const GrapesJsProjectComponent = ({
 
   const deployToVercel = async () => {
     if (!editor || !projectData) return;
-  
+
     setIsDeploying(true);
     try {
       const token = process.env.NEXT_PUBLIC_VERCEL_TOKEN;
       const teamId = process.env.NEXT_PUBLIC_VERCEL_TEAM_ID;
-      
+
       if (!token || !teamId) {
         throw new Error("Vercel configuration missing");
       }
-  
-      // Create a valid project name
       const sanitizedProjectName = `project-${projectId}`
         .toLowerCase()
-        .replace(/[^a-z0-9-_.]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-+|-+$/g, '')
+        .replace(/[^a-z0-9-_.]/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-+|-+$/g, "")
         .substring(0, 100);
-  
-      // Extract HTML and CSS
       const html = editor.getHtml();
       const css = editor.getCss();
-  
-      // Create the file content
       const fileContent = `<!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>${projectData.name || "My Website"}</title>
-      <style>${css}</style>
-    </head>
-    <body>
-      ${html}
-    </body>
-  </html>`;
-  
-      // Convert the file content to base64
-      const encodedContent = Buffer.from(fileContent).toString('base64');
-  
-      // Create a new deployment using Vercel API with teamId as query parameter
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>${projectData.name || "My Website"}</title>
+            <style>${css}</style>
+          </head>
+          <body>
+            ${html}
+          </body>
+        </html>`;
+
+      const encodedContent = Buffer.from(fileContent).toString("base64");
+
       const deploymentResponse = await fetch(
         `https://api.vercel.com/v13/deployments?teamId=${teamId}`,
         {
@@ -141,37 +132,37 @@ const GrapesJsProjectComponent = ({
               {
                 file: "index.html",
                 data: encodedContent,
-                encoding: "base64"
-              }
+                encoding: "base64",
+              },
             ],
             projectSettings: {
               framework: null,
             },
-            target: "production"
+            target: "production",
           }),
         }
       );
-  
+
       if (!deploymentResponse.ok) {
         const errorData = await deploymentResponse.json();
         console.error("Deployment error details:", errorData);
-        throw new Error(`Deployment failed: ${errorData.error?.message || "Unknown error"}`);
+        throw new Error(
+          `Deployment failed: ${errorData.error?.message || "Unknown error"}`
+        );
       }
-  
+
       const deployment = await deploymentResponse.json();
       console.log("Deployment response:", deployment);
-  
-      // Generate the deployment URL
+
       const deploymentUrl = deployment.url
         ? `https://${deployment.url}`
         : `https://${sanitizedProjectName}.vercel.app`;
-  
-      // Update Firebase with deployment URL
+
       const projectRef = doc(db, "projects", projectId);
       await updateDoc(projectRef, {
         deploymentUrl: deploymentUrl,
       });
-  
+
       showToast("deployment-success");
     } catch (error) {
       console.error("Deployment failed:", error);

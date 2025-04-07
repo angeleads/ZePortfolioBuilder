@@ -1,4 +1,3 @@
-// app/projects/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -16,7 +15,10 @@ import {
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/projects/LoadingSpinner";
-import { CreateProjectModal, ProjectFormData } from "@/components/projects/CreateProjectModal";
+import {
+  CreateProjectModal,
+  ProjectFormData,
+} from "@/components/projects/CreateProjectModal";
 import { DeleteProjectModal } from "@/components/projects/DeleteProjectModal";
 import { ProjectList } from "@/components/projects/ProjectList";
 
@@ -36,7 +38,7 @@ const ProjectsPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
-  
+
   const router = useRouter();
   const [newProjectId, setNewProjectId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +60,7 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     if (!user || isLoading) return;
-    
+
     const fetchProjects = async () => {
       const projectsRef = collection(db, "projects");
       const q = query(projectsRef, where("userId", "==", user.uid));
@@ -66,7 +68,8 @@ const ProjectsPage = () => {
       const projectsList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
-        description: doc.data().description || doc.data().data?.description || "",
+        description:
+          doc.data().description || doc.data().data?.description || "",
         icon: doc.data().icon || "rocket",
         color: doc.data().color || "bg-purple-500",
         labels: doc.data().labels || [],
@@ -75,7 +78,7 @@ const ProjectsPage = () => {
       }));
       setProjects(projectsList);
     };
-    
+
     fetchProjects();
   }, [user, isLoading]);
 
@@ -87,7 +90,7 @@ const ProjectsPage = () => {
 
   const handleCreateNewProject = async (formData: ProjectFormData) => {
     if (!user) return;
-    
+
     const newProjectRef = doc(collection(db, "projects"));
     const projectData = {
       userId: user.uid,
@@ -100,7 +103,7 @@ const ProjectsPage = () => {
         description: formData.description,
       },
     };
-    
+
     await setDoc(newProjectRef, projectData);
     setNewProjectId(newProjectRef.id);
     setIsModalOpen(false);
@@ -145,7 +148,7 @@ const ProjectsPage = () => {
       <h1 className="text-5xl mb-20 font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
         My Projects
       </h1>
-      
+
       <ProjectList
         projects={projects}
         onCreateNew={() => setIsModalOpen(true)}

@@ -1,5 +1,4 @@
-// components/ConfirmationModal.tsx
-import React from 'react';
+import React from "react";
 
 interface ConfirmationModalProps {
   isOpen: boolean;

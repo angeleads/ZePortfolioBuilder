@@ -1,4 +1,3 @@
-// app/layout.tsx
 import "./css/style.css";
 import { Inter } from "next/font/google";
 

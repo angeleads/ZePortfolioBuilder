@@ -1,5 +1,3 @@
-// components/projects/LoadingSpinner.tsx
-
 export const LoadingSpinner = () => (
   <div className="flex justify-center items-center h-screen bg-black">
     <div

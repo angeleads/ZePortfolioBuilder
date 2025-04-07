@@ -1,12 +1,11 @@
-// app/profile/page.tsx
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { db, auth } from '@/providers/firebase';
-import { User } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
-import { signOut } from 'firebase/auth';
+import { useState, useEffect } from "react";
+import { db, auth } from "@/providers/firebase";
+import { User } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
 
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -28,7 +27,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!user || isLoading) return;
     const fetchUser = async () => {
-      const userRef = doc(db, 'users', user.uid);
+      const userRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         setUserData(userDoc.data() as { username: string; email: string });
@@ -41,14 +40,14 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!user && !isLoading) {
-      router.push('/auth');
+      router.push("/auth");
     }
   }, [user, isLoading, router]);
 
   const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) return;
-    const userRef = doc(db, 'users', user.uid);
+    const userRef = doc(db, "users", user.uid);
     const target = e.target as typeof e.target & {
       username: { value: string };
       email: { value: string };
@@ -64,7 +63,7 @@ const ProfilePage = () => {
     if (user) {
       await signOut(auth);
       console.log(`User ${user.uid} just logged out`);
-      router.push('/auth');
+      router.push("/auth");
     }
   };
 
@@ -80,7 +79,11 @@ const ProfilePage = () => {
   }
 
   if (!user) {
-    return <div className="flex justify-center items-center h-screen text-white">You must be logged in to view this profile.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen text-white">
+        You must be logged in to view this profile.
+      </div>
+    );
   }
 
   return (
